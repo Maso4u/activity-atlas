@@ -1,20 +1,14 @@
 import { graphqlServer, type RootResolver } from "@hono/graphql-server";
 import { serve } from "@hono/node-server";
-import { buildSchema } from "graphql";
 import { Hono } from "hono";
+import resolvers from "./graphql/resolvers.js";
+import schema from "./graphql/schema.js";
 
 const app = new Hono();
 
-const schema = buildSchema(`
-type Query {
-  hello: String
-}
-`);
-
 const rootResolver: RootResolver = (c) => {
-  return {
-    hello: () => "Hello Hono!",
-  };
+  console.log("RootResolver called");
+  return { ...resolvers.Query };
 };
 
 app.use(
