@@ -1,3 +1,5 @@
+import type { Forecast } from "../types.js";
+
 const DAILY_PARAMS = [
   "temperature_2m_max",
   "temperature_2m_min",
@@ -40,7 +42,7 @@ class OpenMeteoService {
     latitude: number,
     longitude: number,
     timezone: string
-  ) {
+  ): Promise<Array<Forecast>> {
     const url = new URL(this.#forecastBaseUrl);
     url.searchParams.append("latitude", latitude.toString());
     url.searchParams.append("longitude", longitude.toString());
