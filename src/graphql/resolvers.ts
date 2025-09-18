@@ -5,7 +5,7 @@ const resolvers = {
       const cities = await openMeteoService.searchCity(query);
       return cities;
     },
-    getWeatherForecasts: async ({
+    dailyWeatherForecasts: async ({
       latitude,
       longitude,
       timezone,

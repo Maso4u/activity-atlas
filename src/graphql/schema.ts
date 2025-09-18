@@ -54,7 +54,7 @@ const schema = buildSchema(`
 
   type Query {
     searchCity(query: String!): [City!]!
-    getWeatherForecasts(latitude: Float!, longitude: Float!, timezone: String!): [DailyForecast!]!
+    dailyWeatherForecasts(latitude: Float!, longitude: Float!, timezone: String!): [DailyForecast!]!
   }
 
 `);
