@@ -5,6 +5,23 @@ const resolvers = {
       const cities = await openMeteoService.searchCity(query);
       return cities;
     },
+    getWeatherForecasts: async ({
+      latitude,
+      longitude,
+      timezone,
+    }: {
+      latitude: number;
+      longitude: number;
+      timezone: string;
+    }) => {
+      const forecasts = await openMeteoService.getDailyForecast(
+        latitude,
+        longitude,
+        timezone
+      );
+
+      return forecasts;
+    },
   },
 };
 

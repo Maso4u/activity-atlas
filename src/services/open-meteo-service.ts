@@ -35,6 +35,43 @@ class OpenMeteoService {
     // console.log("City search data:", data);
     return data.results || [];
   }
+
+  async getDailyForecast(
+    latitude: number,
+    longitude: number,
+    timezone: string
+  ) {
+    const url = new URL(this.#forecastBaseUrl);
+    url.searchParams.append("latitude", latitude.toString());
+    url.searchParams.append("longitude", longitude.toString());
+    url.searchParams.append("daily", DAILY_PARAMS.join(","));
+    url.searchParams.append("timezone", timezone);
+
+    const response = await fetch(url.toString());
+    if (!response.ok) {
+      throw new Error(`Error fetching weather data: ${response.statusText}`);
+    }
+    const data = await response.json();
+    const forecasts = data.daily.time.map((day: string, index: number) => ({
+      date: day,
+      temperatureMax: data.daily.temperature_2m_max[index],
+      temperatureMin: data.daily.temperature_2m_min[index],
+      temperatureMean: data.daily.temperature_2m_mean[index],
+      weatherCode: data.daily.weathercode[index],
+      weatherDescription: "", // This would require a mapping from code to description
+      precipitationSum: data.daily.precipitation_sum[index],
+      rainSum: data.daily.rain_sum[index],
+      showersSum: data.daily.showers_sum[index],
+      snowfallSum: data.daily.snowfall_sum[index],
+      windSpeedMax: data.daily.windspeed_10m_max[index],
+      windSpeedMean: data.daily.windspeed_10m_mean[index],
+      windGustsMax: data.daily.windgusts_10m_max[index],
+      windDirectionDominant: data.daily.winddirection_10m_dominant[index],
+      uvIndexMax: data.daily.uv_index_max[index],
+      sunshineDuration: data.daily.sunshine_duration[index],
+    }));
+    return forecasts;
+  }
 }
 const openMeteoService = new OpenMeteoService();
 export { openMeteoService };
