@@ -51,10 +51,21 @@ const schema = buildSchema(`
     city: City!
     days: [DailyForecast!]!
   }
+    
+  type ActivityScore {
+    activity: TravelActivity!
+    score: Float!
+  }
+
+  type ActivityRanking {
+    date: String!
+    activities: [ActivityScore!]!
+  }
 
   type Query {
     searchCity(query: String!): [City!]!
     dailyWeatherForecasts(latitude: Float!, longitude: Float!, timezone: String!): [DailyForecast!]!
+    activityRankings(latitude: Float!, longitude: Float!, timezone: String): [ActivityRanking!]!
   }
 
 `);

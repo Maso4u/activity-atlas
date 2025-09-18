@@ -1,3 +1,4 @@
+import { activityScoringService } from "../services/activity-ranking-service.js";
 import { openMeteoService } from "../services/open-meteo-service.js";
 const resolvers = {
   Query: {
@@ -21,6 +22,23 @@ const resolvers = {
       );
 
       return forecasts;
+    },
+    activityRankings: async ({
+      latitude,
+      longitude,
+      timezone,
+    }: {
+      latitude: number;
+      longitude: number;
+      timezone: string;
+    }) => {
+      const forecasts = await openMeteoService.getDailyForecast(
+        latitude,
+        longitude,
+        timezone
+      );
+
+      return activityScoringService.calculateActivityScore(forecasts);
     },
   },
 };
